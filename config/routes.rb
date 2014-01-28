@@ -6,6 +6,9 @@ SampleApp::Application.routes.draw do
     end
   end
 
+  get 'tags/:tag' => 'microposts#tags', as: :tag
+  get '/microposts' => 'microposts#index'
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :microposts, only: [:create, :destroy]

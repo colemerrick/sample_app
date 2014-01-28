@@ -4,6 +4,9 @@
       <%= link_to feed_item.user.name, feed_item.user %>
     </span>
     <span class="content"><%= feed_item.content %></span>
+    <span class="tag">
+      Tags: <%= raw feed_item.tags.map(&:name).map { |t| link_to t, tag_path(t)}.join(', ') %>
+    </span>
     <span class="timestamp">
       Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
     </span>

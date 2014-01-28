@@ -3,5 +3,10 @@
   <div class="field">
     <%= f.text_area :content, placeholder: "Compose new micropost..." %>
   </div>
+  <div class="field">
+	<%= f.label :tag_list, "Tags (separated by commas)" %><br />
+	<%= f.text_field :tag_list %>
+  </div>
+
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>

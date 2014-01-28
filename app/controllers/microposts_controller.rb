@@ -18,10 +18,15 @@ class MicropostsController < ApplicationController
     redirect_to root_url
   end
 
+  def tags
+    @tag = Tag.find_by(:id)
+    @feed_items = Micropost.tagged_with(params[:tag]).paginate(page: params[:page])
+  end
+
   private
 
     def micropost_params
-      params.require(:micropost).permit(:content)
+      params.require(:micropost).permit(:content, :tag_list)
     end
 
     def correct_user
