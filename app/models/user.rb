@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :tag_relationships, foreign_key: "tag_follower_id", dependent: :destroy
+
   has_many :microposts, dependent: :destroy
   has_many :relationships, foreign_key: "follower_id", dependent: :destroy
   has_many :followed_users, through: :relationships, source: :followed
@@ -40,6 +42,18 @@ class User < ActiveRecord::Base
 
   def unfollow!(other_user)
     relationships.find_by(followed_id: other_user.id).destroy!
+  end
+
+  def following_tag?(tag)
+    tag_relationships.find_by(followed_tag_id: tag)
+  end
+
+  def follow_tag!(tag)
+    tag_relationships.create!(followed_tag_id: tag)
+  end
+
+  def unfollow_tag!(tag)
+    tag_relationships.find_by(followed_tag_id: tag).destroy!
   end
 
   private

@@ -1,5 +1,13 @@
 SampleApp::Application.routes.draw do
 
+  resources :tags, only: [] do
+    member do
+      get :tag_followers
+    end
+  end
+
+  resources :tag_relationships, only: [:create, :destroy]
+
   resources :users do
     member do
       get :following, :followers

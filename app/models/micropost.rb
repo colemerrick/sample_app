@@ -7,13 +7,18 @@ class Micropost < ActiveRecord::Base
   has_many :taggings 
   has_many :tags, through: :taggings
 
-  # Returns microposts from the users being followed by the given user.
-  def self.from_users_followed_by(user)
-    followed_user_ids = "SELECT followed_id FROM relationships
-                         WHERE follower_id = :user_id"
-    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id",
-          user_id: user.id)
+  # Find_by or select tag
+
+  def find_or_select_by_id
+    if Tag.find_by!(:id).empty?
+      Tag.select(:id)
+    else 
+      Tag.find_by(:id)
+    end
   end
+  
+
+  # Tagging system
 
   def self.tagged_with(name)
     Tag.find_by_name!(name).microposts
@@ -32,6 +37,14 @@ class Micropost < ActiveRecord::Base
     self.tags = names.split(",").map do |n|
       Tag.where(name: n.strip).first_or_create!
     end
+  end
+
+  # Returns microposts from the users being followed by the given user.
+  def self.from_users_followed_by(user)
+    followed_user_ids = "SELECT followed_id FROM relationships
+                         WHERE follower_id = :user_id"
+    where("user_id IN (#{followed_user_ids}) OR user_id = :user_id",
+          user_id: user.id)
   end
 
 end

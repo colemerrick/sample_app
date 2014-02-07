@@ -19,7 +19,7 @@ class MicropostsController < ApplicationController
   end
 
   def tags
-    @tag = Tag.find_by(:id)
+    @tag = Tag.find_or_select_by_id(:id)
     @feed_items = Micropost.tagged_with(params[:tag]).paginate(page: params[:page])
   end
 
