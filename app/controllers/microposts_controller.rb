@@ -19,9 +19,15 @@ class MicropostsController < ApplicationController
   end
 
   def tags
-    @tag = Tag.find_or_select_by_id(:id)
+    @tag = Tag.exists?
     @feed_items = Micropost.tagged_with(params[:tag]).paginate(page: params[:page])
   end
+
+  def self.tag_counts
+    Tag.select("tags.*, count(taggings.tag_id) as count").
+      joins(:taggings).group("taggings.tag_id")
+  end
+
 
   private
 

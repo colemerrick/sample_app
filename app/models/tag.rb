@@ -7,6 +7,7 @@ class Tag < ActiveRecord::Base
     has_many :reverse_relationships, foreign_key: "followed_tag_id", class_name: "TagRelationship", dependent: :destroy
     has_many :tag_followers, through: :reverse_relationships, source: :tag_follower
 
+
     def self.tagged_with(name)
       Tag.find_by_name!(name).microposts
     end

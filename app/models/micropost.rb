@@ -8,14 +8,6 @@ class Micropost < ActiveRecord::Base
   has_many :tags, through: :taggings
 
   # Find_by or select tag
-
-  def find_or_select_by_id
-    if Tag.find_by!(:id).empty?
-      Tag.select(:id)
-    else 
-      Tag.find_by(:id)
-    end
-  end
   
 
   # Tagging system
